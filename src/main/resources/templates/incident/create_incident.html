@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>SGI - Crear Incidencia</title>
+
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+
+<body>
+
+<header class="bg-primary text-white p-3">
+    <div>
+        <strong>Email:</strong> <span th:text="${user.email}"></span><br>
+        <strong>Nombre:</strong> <span th:text="${user.firstName}"></span><br>
+        <strong>Apellido:</strong> <span th:text="${user.lastName}"></span>
+    </div>
+    <nav>
+        <a class="btn btn-light" th:href="@{/logout}">Cerrar Sesión</a>
+    </nav>
+</header>
+
+<main class="container my-5">
+    <section class="d-flex justify-content-center">
+        <div class="card shadow-sm p-4" style="max-width: 1200px; width: 100%;">
+            <h2 class="text-center mb-4">Registrar Incidencia</h2>
+
+            <div class="alert alert-danger" th:if="${error}">
+                <p th:text="${error}"></p>
+            </div>
+
+            <form class="needs-validation" method="post" novalidate th:action="@{/incident/create_incident}">
+                <div class="mb-3">
+                    <label class="form-label" for="title">Título:</label>
+                    <input class="form-control" id="title" name="title" placeholder="Ingrese el título" required
+                           th:value="${createIncidentRequest.title}" type="text">
+                    <div class="invalid-feedback">
+                        El título es requerido.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="description">Descripción:</label>
+                    <textarea autocomplete="on" class="form-control" id="description"
+                              name="description"
+                              placeholder="Describa el problema" required
+                              rows="3"
+                              th:text="${createIncidentRequest.description}"></textarea>
+                    <div class="invalid-feedback">
+                        La descripción es requerida.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="type">Tipo de Incidencia:</label>
+                    <select class="form-select" id="type" name="type" required th:value="${createIncidentRequest.type}">
+                        <option disabled selected value="">Seleccione un tipo:</option>
+                        <option value="TECHNICAL_SUPPORT">Soporte Técnico</option>
+                        <option value="SYSTEM_ACCESS">Acceso a Sistemas</option>
+                        <option value="NETWORK_ISSUES">Problemas de Red</option>
+                        <option value="OPERATIONAL_QUERIES">Consultas Operativas</option>
+                        <option value="FEATURE_REQUEST">Solicitudes de Mejora</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Seleccione un tipo de incidencia.
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-success" type="submit">Registrar Incidencia</button>
+                    <a class="btn btn-secondary" th:href="@{/customer}">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{/fragments/fragments :: footer}"></footer>
+
+<script crossorigin="anonymous" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
